@@ -17,7 +17,6 @@ const AppNavigator = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
-    // You might want to show a splash screen here
     return null;
   }
 

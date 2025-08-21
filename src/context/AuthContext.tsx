@@ -28,31 +28,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const loadUser = useCallback(async () => {
     try {
       // Get both user data and auth state
-      const [userStr, credentialsStr] = await AsyncStorage.multiGet([
+      const [userStr, authStateStr] = await AsyncStorage.multiGet([
         USER_STORAGE_KEY,
-        CREDENTIALS_STORAGE_KEY,
+        AUTH_STATE_KEY,
       ]);
 
-      // If we have both user data and credentials, auto-login
-      if (userStr[1] && credentialsStr[1]) {
-        const storedUser = JSON.parse(userStr[1]);
-        setUser(storedUser);
+      // Only restore user if auth state is true
+      if (userStr[1] && authStateStr[1] === 'true') {
+        setUser(JSON.parse(userStr[1]));
       } else {
-        // If we're missing either, clear everything to be safe
-        await AsyncStorage.multiRemove([
-          USER_STORAGE_KEY,
-          CREDENTIALS_STORAGE_KEY,
-          AUTH_STATE_KEY,
-        ]);
         setUser(null);
       }
     } catch (error) {
-      // On any error, clear everything
-      await AsyncStorage.multiRemove([
-        USER_STORAGE_KEY,
-        CREDENTIALS_STORAGE_KEY,
-        AUTH_STATE_KEY,
-      ]);
       setUser(null);
     } finally {
       setIsLoading(false);
@@ -85,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const storedCredentials = JSON.parse(storedCredentialsStr);
       
-      if (credentials.email !== storedCredentials.email || 
+      if (credentials.email.toLowerCase() !== storedCredentials.email.toLowerCase() || 
           credentials.password !== storedCredentials.password) {
         throw new Error('Invalid email or password');
       }
@@ -140,13 +127,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       if (clearStorage) {
+        // Clear all data
         await AsyncStorage.multiRemove([
           USER_STORAGE_KEY,
           CREDENTIALS_STORAGE_KEY,
           AUTH_STATE_KEY,
         ]);
       } else {
-        // Just mark as logged out but keep credentials
+        // Just set auth state to false but keep credentials
         await AsyncStorage.setItem(AUTH_STATE_KEY, 'false');
       }
       setUser(null);
