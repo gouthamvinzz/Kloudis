@@ -7,35 +7,38 @@ export const COLORS = {
   primary: '#c01f2f',
   primaryDark: '#1976D2',
   primaryLight: '#BBDEFB',
-
-  // Secondary colors
-  secondary: '#FF4081',
-  secondaryDark: '#C51162',
-  secondaryLight: '#FF80AB',
+  secondary: '#60A5FA', // Blue
+  secondaryLight: '#93C5FD',
+  secondaryDark: '#3B82F6',
+  // Background colors
+  background: '#f4e7e6', // Dark background
+  surface: 'white',
+  surfaceLight: '#c01f2f',
 
   // Status colors
-  success: '#4CAF50',
-  error: '#F44336',
-  warning: '#FFC107',
-  info: '#2196F3',
+  success: '#10B981',
+  error: '#EF4444',
+  warning: '#F59E0B',
+  info: '#3B82F6',
 
-  // Grayscale
-  white: '#FFFFFF',
-  lightGray: '#F5F5F5',
-  gray: '#9E9E9E',
-  darkGray: '#616161',
-  black: '#000000',
+  // Text colors
+  text: 'black',
+  textLight: 'black',
+  textDark: 'black',
+  textMuted: 'black',
 
   // Functional colors
-  background: '#FFFFFF',
-  surface: '#FFFFFF',
-  border: '#E0E0E0',
-  text: '#212121',
-  textLight: '#757575',
+  border: '#4B5563',
+  divider: '#374151',
+  overlay: 'rgba(0, 0, 0, 0.5)',
+  white: '#FFFFFF',
+  black: '#000000',
+  gray:'gray',
   transparent: 'transparent',
 
-  // App color
-
+  // Gradient colors
+  gradientStart: '#8B5CF6',
+  gradientEnd: '#60A5FA',
 };
 
 export const SIZES = {
@@ -47,10 +50,21 @@ export const SIZES = {
   large: 18,
   xlarge: 24,
   xxlarge: 32,
+  xxxlarge: 48,
 
   // Screen dimensions
   width,
   height,
+
+  // Card sizes
+  cardRadius: 20,
+  buttonRadius: 12,
+
+  // Avatar sizes
+  avatarSmall: 40,
+  avatarMedium: 60,
+  avatarLarge: 80,
+  avatarXLarge: 120,
 };
 
 export const FONTS = {
@@ -69,16 +83,21 @@ export const FONTS = {
   h1: {
     fontFamily: 'System',
     fontWeight: '700' as const,
-    fontSize: SIZES.xxlarge,
+    fontSize: SIZES.xxxlarge,
   },
   h2: {
     fontFamily: 'System',
     fontWeight: '700' as const,
-    fontSize: SIZES.xlarge,
+    fontSize: SIZES.xxlarge,
   },
   h3: {
     fontFamily: 'System',
-    fontWeight: '700' as const,
+    fontWeight: '600' as const,
+    fontSize: SIZES.xlarge,
+  },
+  h4: {
+    fontFamily: 'System',
+    fontWeight: '600' as const,
     fontSize: SIZES.large,
   },
   body1: {

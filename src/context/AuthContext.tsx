@@ -11,14 +11,6 @@ const USER_STORAGE_KEY = '@kloudis_user';
 const CREDENTIALS_STORAGE_KEY = '@kloudis_credentials';
 const AUTH_STATE_KEY = '@kloudis_auth_state';
 
-const cleanupOldStorage = async () => {
-  try {
-    await AsyncStorage.multiRemove(['@user', '@credentials']);
-  } catch (error) {
-    // Silently handle cleanup errors
-  }
-};
-
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
@@ -35,18 +27,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loadUser = useCallback(async () => {
     try {
-      await cleanupOldStorage();
-      const [storedUser, authState] = await AsyncStorage.multiGet([USER_STORAGE_KEY, AUTH_STATE_KEY]);
-      
-      if (storedUser[1] && authState[1] === 'true') {
-        setUser(JSON.parse(storedUser[1]));
+      // Get both user data and auth state
+      const [userStr, credentialsStr] = await AsyncStorage.multiGet([
+        USER_STORAGE_KEY,
+        CREDENTIALS_STORAGE_KEY,
+      ]);
+
+      // If we have both user data and credentials, auto-login
+      if (userStr[1] && credentialsStr[1]) {
+        const storedUser = JSON.parse(userStr[1]);
+        setUser(storedUser);
       } else {
-        // Clear any stored data if not authenticated
-        await AsyncStorage.multiRemove([USER_STORAGE_KEY, CREDENTIALS_STORAGE_KEY, AUTH_STATE_KEY]);
+        // If we're missing either, clear everything to be safe
+        await AsyncStorage.multiRemove([
+          USER_STORAGE_KEY,
+          CREDENTIALS_STORAGE_KEY,
+          AUTH_STATE_KEY,
+        ]);
         setUser(null);
       }
     } catch (error) {
-      // Handle load error silently
+      // On any error, clear everything
+      await AsyncStorage.multiRemove([
+        USER_STORAGE_KEY,
+        CREDENTIALS_STORAGE_KEY,
+        AUTH_STATE_KEY,
+      ]);
       setUser(null);
     } finally {
       setIsLoading(false);
@@ -58,9 +64,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [loadUser]);
 
   const storeUserData = async (userData: User, credentials: { email: string; password: string }) => {
-    await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
-    await AsyncStorage.setItem(CREDENTIALS_STORAGE_KEY, JSON.stringify(credentials));
-    await AsyncStorage.setItem(AUTH_STATE_KEY, 'true');
+    try {
+      await AsyncStorage.multiSet([
+        [USER_STORAGE_KEY, JSON.stringify(userData)],
+        [CREDENTIALS_STORAGE_KEY, JSON.stringify(credentials)],
+        [AUTH_STATE_KEY, 'true'],
+      ]);
+    } catch (error) {
+      throw new Error('Failed to store user data');
+    }
   };
 
   const login = async (credentials: LoginCredentials) => {
@@ -128,8 +140,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     try {
       if (clearStorage) {
-        await AsyncStorage.multiRemove([USER_STORAGE_KEY, CREDENTIALS_STORAGE_KEY, AUTH_STATE_KEY]);
+        await AsyncStorage.multiRemove([
+          USER_STORAGE_KEY,
+          CREDENTIALS_STORAGE_KEY,
+          AUTH_STATE_KEY,
+        ]);
       } else {
+        // Just mark as logged out but keep credentials
         await AsyncStorage.setItem(AUTH_STATE_KEY, 'false');
       }
       setUser(null);

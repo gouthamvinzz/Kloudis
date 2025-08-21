@@ -28,7 +28,6 @@ const Input: React.FC<InputProps> = ({
           error && styles.inputError,
           style,
         ]}
-        placeholderTextColor={COLORS.gray}
         {...props}
       />
     </View>
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
   },
   input: {
     ...FONTS.body1,
-    backgroundColor: COLORS.lightGray,
+    backgroundColor: COLORS.white,
     borderRadius: SIZES.base,
     paddingHorizontal: SIZES.medium,
     paddingVertical: SIZES.small,

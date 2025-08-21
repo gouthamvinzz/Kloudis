@@ -26,6 +26,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       <FormInput
         label={label+'*'}
         error={error}
+        placeholder="Enter your password"
         secureTextEntry={!isVisible}
         {...props}
       />
@@ -36,7 +37,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         <Icon
           name={isVisible ? 'visibility' : 'visibility-off'}
           size={24}
-          color={COLORS.gray}
+          color={COLORS.black}
         />
       </TouchableOpacity>
     </View>
