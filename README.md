@@ -14,10 +14,12 @@ A modern React Native authentication app built with TypeScript, featuring a clea
 
 ## 📱 Demo
 
-[Place for screenshots/GIFs of the app in action]
+https://github.com/user-attachments/assets/2e45ed05-7633-4da0-a13c-df7e2d0fc12b
+
 
 ## 🏗 Project Structure
 
+<img width="1518" height="313" alt="Screenshot 2025-08-21 at 12 16 41 am" src="https://github.com/user-attachments/assets/573c7bf3-1a70-4b56-9751-52e8aa0ca9ce" />
 
 
 ```
@@ -133,9 +135,6 @@ Built using atomic design principles:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
