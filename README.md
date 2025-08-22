@@ -16,6 +16,10 @@ A modern React Native authentication app built with TypeScript, featuring a clea
 
 https://github.com/user-attachments/assets/2e45ed05-7633-4da0-a13c-df7e2d0fc12b
 
+<img width="300" height="800" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-22 at 09 26 10" src="https://github.com/user-attachments/assets/84f43c65-cc0c-42e5-96a4-3214ba68fea5" />
+<img width="300" height="800" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-22 at 09 26 25" src="https://github.com/user-attachments/assets/04a4cdd0-51ac-4137-bf04-f6136f2611d8" />
+<img width="300" height="800" alt="Simulator Screenshot - iPhone 16 Pro - 2025-08-22 at 09 26 30" src="https://github.com/user-attachments/assets/c0fb76a1-f2ef-4889-9570-43fe39891a97" />
+
 
 ## 🏗 Project Structure
 
